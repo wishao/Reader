@@ -16,7 +16,7 @@ public class DemoApplication extends Application {
     public boolean m_bKeyRight = true;
     BMapManager mBMapManager = null;
 
-    public static final String strKey = "请输入您的key";
+    public static final String strKey = "908DBF4A2EE7D5FA9AB63F518E9AF6B7051E31D8";
 	
 	@Override
     public void onCreate() {
