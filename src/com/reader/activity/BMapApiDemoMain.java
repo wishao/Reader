@@ -25,7 +25,7 @@ public class BMapApiDemoMain extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        String versionInof = VersionInfo.getApiVersion();
+        //String versionInof = VersionInfo.getApiVersion();
 		mListView = (ListView)findViewById(R.id.listView); 
 		// 添加ListItem，设置事件响应
 		List<String> data = new ArrayList<String>();
