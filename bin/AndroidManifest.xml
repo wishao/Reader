@@ -67,6 +67,10 @@
             android:process=":remote" >
         </service>
 
+        <activity
+            android:name="com.reader.activity.MenuActivity"
+            android:label="@string/title_activity_menu" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
