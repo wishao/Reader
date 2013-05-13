@@ -66,6 +66,7 @@
             android:enabled="true"
             android:process=":remote" >
         </service>
+
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
