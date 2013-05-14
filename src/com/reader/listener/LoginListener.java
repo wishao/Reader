@@ -1,15 +1,19 @@
 package com.reader.listener;
 
-import org.json.JSONException;
+import java.sql.Timestamp;
 import org.json.JSONObject;
 
 import com.reader.R;
+import com.reader.activity.MenuActivity;
+import com.reader.impl.UserHelper;
 import com.reader.model.User;
 import com.reader.util.Config;
+import com.reader.util.Constant;
 import com.reader.util.HttpUtils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -38,9 +42,35 @@ public class LoginListener implements OnClickListener {
 				+ user.getPassword();
 		JSONObject result = HttpUtils.getJsonByPost(path, params);
 		try {
-			Toast.makeText(context, result.getString("msg"), Toast.LENGTH_SHORT)
-					.show();
-		} catch (JSONException e) {
+			if (result.getBoolean("result")) {
+
+				user.setId(result.getString("id"));
+				user.setName(result.getString("name"));
+				user.setCreateTime(new Timestamp((Constant.sf).parse(
+						result.getString("create_time")).getTime()));
+				user.setAddress(result.getString("address"));
+				user.setSignature(result.getString("signature"));
+				user.setUpdateTime(new Timestamp((Constant.sf).parse(
+						result.getString("update_time")).getTime()));
+				user.setStatus(new Byte(result.getString("status")));
+				UserHelper helper = new UserHelper(
+						context.getApplicationContext());
+				if (helper.findUser() != null) {
+					helper.updateUser(user);
+				} else {
+					helper.insertUser(user);
+				}
+				Toast.makeText(context, result.getString("msg"),
+						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.setClass(context, MenuActivity.class);
+				context.startActivity(intent);
+			} else {
+				Toast.makeText(context, result.getString("msg"),
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

@@ -1,6 +1,11 @@
 package com.reader.util;
 
+import android.annotation.SuppressLint;
+import java.text.SimpleDateFormat;
+
 public class Constant {
+	@SuppressLint("SimpleDateFormat")
+	public static final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public static final byte ADMIN_ROLE_SUPER = 1;// 超级管理员
 	public static final byte ADMIN_ROLE_USER = 2;// 用户管理员
 	public static final byte ADMIN_ROLE_BOOK = 3;// 书籍管理员

@@ -1,5 +1,6 @@
 package com.reader.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,8 +9,12 @@ import java.sql.Timestamp;
  * @email ws_wishao@163.com
  * @detail
  */
-public class Contact {
+public class Contact  implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private User sendUser;
 	private User receiveUser;

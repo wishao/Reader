@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.reader.R;
-import com.reader.activity.BaseMapDemo;
+import com.reader.activity.MenuActivity;
 import com.reader.model.User;
 import com.reader.util.Config;
 import com.reader.util.HttpUtils;
@@ -36,9 +36,9 @@ public class RegisterButtonListener implements OnClickListener {
 		String name = nameText.getText().toString();
 		String pwd = pwdText.getText().toString();
 		String pwd1 = pwdText1.getText().toString();
-		if (name.indexOf(" ") != -1 || pwd.indexOf(" ") != -1
-				|| pwd1.indexOf(" ") != -1) {
-			Toast.makeText(context, "输入不能有空格", Toast.LENGTH_SHORT).show();
+		if (name.indexOf(" ") != -1 || pwd.indexOf(" ") != -1 || name == null
+				|| pwd == null || name.equals("") || pwd.equals("")) {
+			Toast.makeText(context, "输入有空格或为空值", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		if (!pwd.equals(pwd1)) {
@@ -52,9 +52,11 @@ public class RegisterButtonListener implements OnClickListener {
 				+ user.getPassword();
 		JSONObject result = HttpUtils.getJsonByPost(path, params);
 		try {
-			if (result.getString("success").equals("true")) {
+			if (result.getBoolean("success")) {
+				Toast.makeText(context, result.getString("message"),
+						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
-				intent.setClass(context, BaseMapDemo.class);
+				intent.setClass(context, MenuActivity.class);
 				context.startActivity(intent);
 			} else {
 				Toast.makeText(context, result.getString("message"),

@@ -71,6 +71,10 @@
             android:name="com.reader.activity.MenuActivity"
             android:label="@string/title_activity_menu" >
         </activity>
+        <activity
+            android:name="com.reader.activity.IndividualActivity"
+            android:label="@string/title_activity_individual" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
