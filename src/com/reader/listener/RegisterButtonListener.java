@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.reader.R;
 import com.reader.activity.MenuActivity;
+import com.reader.impl.UserHelper;
 import com.reader.model.User;
 import com.reader.util.Config;
 import com.reader.util.HttpUtils;
@@ -53,6 +54,13 @@ public class RegisterButtonListener implements OnClickListener {
 		JSONObject result = HttpUtils.getJsonByPost(path, params);
 		try {
 			if (result.getBoolean("success")) {
+				UserHelper helper = new UserHelper(
+						context.getApplicationContext());
+				if (helper.findUser() != null) {
+					helper.updateUser(user);
+				} else {
+					helper.insertUser(user);
+				}
 				Toast.makeText(context, result.getString("message"),
 						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();

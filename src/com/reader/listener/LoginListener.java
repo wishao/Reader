@@ -30,17 +30,18 @@ public class LoginListener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		EditText nameText = (EditText) ((Activity) context)
+				.findViewById(R.id.editText1);
+		EditText pwdText = (EditText) ((Activity) context)
+				.findViewById(R.id.editText2);
+		String name = nameText.getText().toString();
+		String password = pwdText.getText().toString();
+		User user = new User();
+		user.setName(name);
+		user.setPassword(password);
 		if (isNetworkAvailable()) {
 			String path = Config.HTTP_LOGIN;
-			EditText nameText = (EditText) ((Activity) context)
-					.findViewById(R.id.editText1);
-			EditText pwdText = (EditText) ((Activity) context)
-					.findViewById(R.id.editText2);
-			String name = nameText.getText().toString();
-			String password = pwdText.getText().toString();
-			User user = new User();
-			user.setName(name);
-			user.setPassword(password);
+
 			String params = "loginName=" + user.getName() + "&loginPassword="
 					+ user.getPassword();
 			JSONObject result = HttpUtils.getJsonByPost(path, params);
@@ -80,6 +81,18 @@ public class LoginListener implements OnClickListener {
 			Toast.makeText(context,
 					context.getString(R.string.network_service),
 					Toast.LENGTH_SHORT).show();
+			UserHelper helper = new UserHelper(context.getApplicationContext());
+			if (helper.login(user) != null) {
+				Toast.makeText(context, user.getName() + "登录成功",
+						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.setClass(context, MenuActivity.class);
+				context.startActivity(intent);
+			} else {
+				Toast.makeText(context, user.getName() + "登录失败",
+						Toast.LENGTH_SHORT).show();
+			}
+
 		}
 
 	}

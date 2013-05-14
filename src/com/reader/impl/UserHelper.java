@@ -50,24 +50,31 @@ public class UserHelper {
 	@SuppressWarnings("null")
 	public User login(User user) {
 		db = dbHelper.getWritableDatabase();
-		Cursor cursor = db.rawQuery(
-				"select * from t_user where name=? and password=?;",
-				new String[] { user.getName(),
-						MD5Util.getMD5(user.getPassword()) });
+		Cursor cursor = db
+				.rawQuery(
+						"select id,name,password,create_time,address,signature,update_time,status from t_user where name=? and password=?;",
+						new String[] { user.getName(),
+								MD5Util.getMD5(user.getPassword()) });
 		cursor.moveToFirst();
 		user = null;
-		while (!cursor.isAfterLast()) {
+		if (!cursor.isAfterLast()) {
 			try {
-				user.setId(cursor.getString(0));
-				user.setName(cursor.getString(1));
-				user.setPassword(cursor.getString(2));
+				user.setId(cursor.getString(cursor.getColumnIndex("id")));
+				user.setName(cursor.getString(cursor.getColumnIndex("name")));
+				user.setPassword(cursor.getString(cursor
+						.getColumnIndex("password")));
 				user.setCreateTime(new Timestamp((Constant.sf).parse(
-						cursor.getString(3)).getTime()));
-				user.setAddress(cursor.getString(4));
-				user.setSignature(cursor.getString(5));
+						cursor.getString(cursor.getColumnIndex("create_time")))
+						.getTime()));
+				user.setAddress(cursor.getString(cursor
+						.getColumnIndex("address")));
+				user.setSignature(cursor.getString(cursor
+						.getColumnIndex("signature")));
 				user.setUpdateTime(new Timestamp((Constant.sf).parse(
-						cursor.getString(6)).getTime()));
-				user.setStatus(new Byte(cursor.getString(7)));
+						cursor.getString(cursor.getColumnIndex("update_time")))
+						.getTime()));
+				user.setStatus(new Byte(cursor.getString(cursor
+						.getColumnIndex("status"))));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,9 +104,11 @@ public class UserHelper {
 		db = dbHelper.getWritableDatabase();
 		db.execSQL(
 				"update t_user set id=?,name=?,password=?,create_time=?,address=?,signature=?,update_time=?,status=?;",
-				new Object[] { user.getId() ,user.getName(),
-						user.getPassword(),user.getCreateTime(), user.getAddress(),
-						user.getSignature(), user.getUpdateTime(),user.getStatus() });
+				new Object[] { user.getId(), user.getName(),
+						MD5Util.getMD5(user.getPassword()),
+						user.getCreateTime(), user.getAddress(),
+						user.getSignature(), user.getUpdateTime(),
+						user.getStatus() });
 		db.close();
 
 	}
