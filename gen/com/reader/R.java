@@ -40,38 +40,37 @@ public final class R {
     }
     public static final class id {
         public static final int Button01=0x7f080002;
-        public static final int EditText01=0x7f080007;
+        public static final int EditText01=0x7f080008;
         public static final int EditText02=0x7f08000d;
         public static final int EditText03=0x7f08000c;
         public static final int TextView01=0x7f080005;
         public static final int TextView02=0x7f080006;
         public static final int TextView03=0x7f08000b;
-        public static final int TextView04=0x7f080008;
-        public static final int TextView05=0x7f08000a;
-        public static final int action_forgot_password=0x7f080020;
-        public static final int action_settings=0x7f08001f;
+        public static final int TextView04=0x7f08000a;
+        public static final int TextView05=0x7f080009;
+        public static final int action_forgot_password=0x7f08001f;
+        public static final int action_settings=0x7f08001e;
         public static final int bmapView=0x7f080010;
         public static final int button1=0x7f080003;
         public static final int button2=0x7f08000e;
         public static final int button3=0x7f08000f;
-        public static final int city=0x7f080018;
+        public static final int city=0x7f080017;
         public static final int editText1=0x7f080001;
         public static final int editText2=0x7f080000;
-        public static final int editText3=0x7f080009;
-        public static final int geocode=0x7f08001a;
-        public static final int geocodekey=0x7f080019;
-        public static final int imageView1=0x7f080012;
-        public static final int imageView2=0x7f080013;
-        public static final int imageView3=0x7f080014;
-        public static final int imageView4=0x7f080015;
-        public static final int imageView5=0x7f080016;
-        public static final int imageView6=0x7f080017;
-        public static final int listView=0x7f08001d;
-        public static final int menu_settings=0x7f08001e;
-        public static final int reversegeocode=0x7f08001b;
-        public static final int tableRow1=0x7f080011;
+        public static final int editText3=0x7f080007;
+        public static final int geocode=0x7f080019;
+        public static final int geocodekey=0x7f080018;
+        public static final int imageView1=0x7f080011;
+        public static final int imageView2=0x7f080012;
+        public static final int imageView3=0x7f080013;
+        public static final int imageView4=0x7f080014;
+        public static final int imageView5=0x7f080015;
+        public static final int imageView6=0x7f080016;
+        public static final int listView=0x7f08001c;
+        public static final int menu_settings=0x7f08001d;
+        public static final int reversegeocode=0x7f08001a;
         public static final int textView2=0x7f080004;
-        public static final int text_Info=0x7f08001c;
+        public static final int text_Info=0x7f08001b;
     }
     public static final class layout {
         public static final int activity_base=0x7f030000;

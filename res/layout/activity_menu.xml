@@ -5,20 +5,6 @@
     android:padding="2dip"
     android:stretchColumns="*" >
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-    </TableRow>
-
     <TableRow>
 
         <ImageView

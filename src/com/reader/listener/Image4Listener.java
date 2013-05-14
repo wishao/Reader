@@ -26,7 +26,7 @@ public class Image4Listener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		
+		Toast.makeText(context, "开发中", Toast.LENGTH_SHORT).show();
 
 	}
 
