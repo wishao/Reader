@@ -17,11 +17,9 @@ public class UserHelper {
 
 	private Database dbHelper;
 	private SQLiteDatabase db;
-	private Context context;
 	Date date = null;
 
 	public UserHelper(Context context) {
-		this.context = context;
 		dbHelper = new Database(context);
 	}
 

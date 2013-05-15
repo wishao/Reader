@@ -18,11 +18,9 @@ public class ReaderHelper {
 
 	private Database dbHelper;
 	private SQLiteDatabase db;
-	private Context context;
 	Date date = null;
 
 	public ReaderHelper(Context context) {
-		this.context = context;
 		dbHelper = new Database(context);
 	}
 
@@ -127,8 +125,8 @@ public class ReaderHelper {
 		while (!cursor.isAfterLast()) {
 			try {
 				reader.setId(cursor.getString(0));
-				UserHelper uh = new UserHelper(context);
-				User user = uh.findUser();
+				User user = new User();
+				user.setId(cursor.getString(1));
 				reader.setUser(user);
 				reader.setFont(cursor.getString(2));
 				reader.setBackgroundColor(cursor.getString(3));
