@@ -17,9 +17,11 @@ public class UserHelper {
 
 	private Database dbHelper;
 	private SQLiteDatabase db;
+	private Context context;
 	Date date = null;
 
 	public UserHelper(Context context) {
+		this.context = context;
 		dbHelper = new Database(context);
 	}
 
@@ -47,42 +49,36 @@ public class UserHelper {
 	 * @param urlstr
 	 * @return
 	 */
-	@SuppressWarnings("null")
 	public User login(User user) {
 		db = dbHelper.getWritableDatabase();
-		Cursor cursor = db
-				.rawQuery(
-						"select id,name,password,create_time,address,signature,update_time,status from t_user where name=? and password=?;",
-						new String[] { user.getName(),
-								MD5Util.getMD5(user.getPassword()) });
+		Cursor cursor = db.rawQuery(
+				"select * from t_user where name=? and password=?;",
+				new String[] { user.getName(),
+						MD5Util.getMD5(user.getPassword()) });
 		cursor.moveToFirst();
-		user = null;
+		User resultUser = new User();
 		if (!cursor.isAfterLast()) {
 			try {
-				user.setId(cursor.getString(cursor.getColumnIndex("id")));
-				user.setName(cursor.getString(cursor.getColumnIndex("name")));
-				user.setPassword(cursor.getString(cursor
-						.getColumnIndex("password")));
-				user.setCreateTime(new Timestamp((Constant.sf).parse(
-						cursor.getString(cursor.getColumnIndex("create_time")))
-						.getTime()));
-				user.setAddress(cursor.getString(cursor
-						.getColumnIndex("address")));
-				user.setSignature(cursor.getString(cursor
-						.getColumnIndex("signature")));
-				user.setUpdateTime(new Timestamp((Constant.sf).parse(
-						cursor.getString(cursor.getColumnIndex("update_time")))
-						.getTime()));
-				user.setStatus(new Byte(cursor.getString(cursor
-						.getColumnIndex("status"))));
+				resultUser.setId(cursor.getString(0));
+				resultUser.setName(cursor.getString(1));
+				resultUser.setPassword(cursor.getString(2));
+				resultUser.setCreateTime(new Timestamp((Constant.sf).parse(
+						cursor.getString(3)).getTime()));
+				resultUser.setAddress(cursor.getString(4));
+				resultUser.setSignature(cursor.getString(5));
+				resultUser.setUpdateTime(new Timestamp((Constant.sf).parse(
+						cursor.getString(6)).getTime()));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			cursor.close();
+			db.close();
+			return resultUser;
+		} else {
+			return null;
 		}
-		cursor.close();
-		db.close();
-		return user;
+
 	}
 
 	/**
