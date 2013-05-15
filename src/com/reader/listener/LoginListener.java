@@ -57,6 +57,7 @@ public class LoginListener implements OnClickListener {
 					user.setUpdateTime(new Timestamp((Constant.sf).parse(
 							result.getString("update_time")).getTime()));
 					user.setStatus(new Byte(result.getString("status")));
+					//更新用户
 					UserHelper helper = new UserHelper(
 							context.getApplicationContext());
 					if (helper.findUser() != null) {
