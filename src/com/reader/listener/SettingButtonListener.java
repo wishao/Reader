@@ -1,15 +1,15 @@
 package com.reader.listener;
 
-import java.sql.Timestamp;
 
 import org.json.JSONObject;
 
 import com.reader.R;
 import com.reader.activity.MenuActivity;
+import com.reader.impl.ReaderHelper;
 import com.reader.impl.UserHelper;
+import com.reader.model.Reader;
 import com.reader.model.User;
 import com.reader.util.Config;
-import com.reader.util.Constant;
 import com.reader.util.HttpUtils;
 
 import android.app.Activity;
@@ -31,79 +31,47 @@ public class SettingButtonListener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		EditText fontText = (EditText) ((Activity) context)
+				.findViewById(R.id.editText2);
+		EditText fontColorText = (EditText) ((Activity) context)
+				.findViewById(R.id.editText1);
+		EditText backgroundText = (EditText) ((Activity) context)
+				.findViewById(R.id.EditText01);
+		String font = fontText.getText().toString();
+		String fontColor = fontColorText.getText().toString();
+		String background = backgroundText.getText().toString();
+		UserHelper uhelper = new UserHelper(context.getApplicationContext());
+		User user = uhelper.findUser();
+		Reader reader = new Reader();
+		ReaderHelper rhelper = new ReaderHelper(context.getApplicationContext());
+		reader = rhelper.findReader();
+		reader.setBackgroundColor(background);
+		reader.setFont(font);
+		reader.setFontColor(fontColor);
+		rhelper.updateReader(reader);
 		if (isNetworkAvailable()) {
-			String loginPath = Config.HTTP_LOGIN;
-			String updatePath = Config.HTTP_UPDATE_PASSWORD;
-			EditText nameText = (EditText) ((Activity) context)
-					.findViewById(R.id.editText2);
-			EditText oldPwdText = (EditText) ((Activity) context)
-					.findViewById(R.id.editText1);
-			EditText pwdText = (EditText) ((Activity) context)
-					.findViewById(R.id.EditText01);
-			EditText pwdText1 = (EditText) ((Activity) context)
-					.findViewById(R.id.EditText03);
-			String name = nameText.getText().toString();
-			String oldPwd = oldPwdText.getText().toString();
-			String pwd = pwdText.getText().toString();
-			String pwd1 = pwdText1.getText().toString();
-			if (oldPwd.indexOf(" ") != -1 || pwd.indexOf(" ") != -1
-					|| oldPwd == null || pwd == null || oldPwd.equals("")
-					|| pwd.equals("")) {
-				Toast.makeText(context, "输入有空格或为空值", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if (!pwd.equals(pwd1)) {
-				Toast.makeText(context, "两次密码不一致", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			User user = new User();
-			user.setName(name);
-			user.setPassword(oldPwd);
-			String params = "loginName=" + user.getName() + "&loginPassword="
-					+ user.getPassword();
-			JSONObject result = HttpUtils.getJsonByPost(loginPath, params);
+			String updatePath = Config.HTTP_READER_UPDATE;
+			String params = "id=" + reader.getId() + "&user_id=" + user.getId()
+					+ "&font=" + reader.getFont() + "&background_color="
+					+ reader.getBackgroundColor() + "&font_color="
+					+ reader.getFontColor();
+			JSONObject result = HttpUtils.getJsonByPost(updatePath, params);
 			try {
-				if (result.getBoolean("result")) {
-					user.setId(result.getString("id"));
-					user.setName(result.getString("name"));
-					user.setCreateTime(new Timestamp((Constant.sf).parse(
-							result.getString("create_time")).getTime()));
-					user.setAddress(result.getString("address"));
-					user.setSignature(result.getString("signature"));
-					user.setUpdateTime(new Timestamp((Constant.sf).parse(
-							result.getString("update_time")).getTime()));
-					user.setStatus(new Byte(result.getString("status")));
-
-					params = "id=" + user.getId() + "&password=" + pwd;
-					result = HttpUtils.getJsonByPost(updatePath, params);
-					if (result.getBoolean("success")) {
-						UserHelper helper = new UserHelper(
-								context.getApplicationContext());
-						if (helper.findUser() != null) {
-							helper.updateUser(user);
-						} else {
-							helper.insertUser(user);
-						}
-						Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT)
-								.show();
-						Intent intent = new Intent();
-						intent.setClass(context, MenuActivity.class);
-						context.startActivity(intent);
-					} else {
-						Toast.makeText(context, "修改失败", Toast.LENGTH_SHORT)
-								.show();
-						return;
-					}
+				if (result.getBoolean("success")) {
+					Toast.makeText(context, result.getString("message"),
+							Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent();
+					intent.setClass(context, MenuActivity.class);
+					context.startActivity(intent);
 				} else {
-					Toast.makeText(context, "原密码错误", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, result.getString("message"),
+							Toast.LENGTH_SHORT).show();
 					return;
 				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else{
-			
 		}
 
 	}

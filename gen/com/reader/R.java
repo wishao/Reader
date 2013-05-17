@@ -21,22 +21,25 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int bg_fri_box=0x7f020000;
-        public static final int ic_action_search=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int icon=0x7f020003;
-        public static final int icon_marka=0x7f020004;
-        public static final int icon_markb=0x7f020005;
-        public static final int icon_markc=0x7f020006;
-        public static final int icon_markd=0x7f020007;
-        public static final int icon_marke=0x7f020008;
-        public static final int icon_markf=0x7f020009;
-        public static final int icon_markg=0x7f02000a;
-        public static final int icon_markh=0x7f02000b;
-        public static final int icon_marki=0x7f02000c;
-        public static final int icon_markj=0x7f02000d;
-        public static final int main=0x7f02000e;
-        public static final int pop=0x7f02000f;
+        public static final int backrepeat=0x7f020000;
+        public static final int bg_fri_box=0x7f020001;
+        public static final int ic_action_search=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int icon=0x7f020004;
+        public static final int icon_marka=0x7f020005;
+        public static final int icon_markb=0x7f020006;
+        public static final int icon_markc=0x7f020007;
+        public static final int icon_markd=0x7f020008;
+        public static final int icon_marke=0x7f020009;
+        public static final int icon_markf=0x7f02000a;
+        public static final int icon_markg=0x7f02000b;
+        public static final int icon_markh=0x7f02000c;
+        public static final int icon_marki=0x7f02000d;
+        public static final int icon_markj=0x7f02000e;
+        public static final int icon_pro=0x7f02000f;
+        public static final int main=0x7f020010;
+        public static final int pop=0x7f020011;
+        public static final int transparent=0x7f020012;
     }
     public static final class id {
         public static final int Button01=0x7f080002;
@@ -48,29 +51,35 @@ public final class R {
         public static final int TextView03=0x7f08000b;
         public static final int TextView04=0x7f08000a;
         public static final int TextView05=0x7f080009;
-        public static final int action_forgot_password=0x7f08001f;
-        public static final int action_settings=0x7f08001e;
+        public static final int action_forgot_password=0x7f080025;
+        public static final int action_settings=0x7f080024;
         public static final int bmapView=0x7f080010;
         public static final int button1=0x7f080003;
         public static final int button2=0x7f08000e;
         public static final int button3=0x7f08000f;
-        public static final int city=0x7f080017;
+        public static final int city=0x7f08001c;
         public static final int editText1=0x7f080001;
         public static final int editText2=0x7f080000;
         public static final int editText3=0x7f080007;
-        public static final int geocode=0x7f080019;
-        public static final int geocodekey=0x7f080018;
+        public static final int geocode=0x7f08001e;
+        public static final int geocodekey=0x7f08001d;
+        public static final int hue_picker=0x7f080018;
         public static final int imageView1=0x7f080011;
         public static final int imageView2=0x7f080012;
         public static final int imageView3=0x7f080013;
         public static final int imageView4=0x7f080014;
         public static final int imageView5=0x7f080015;
         public static final int imageView6=0x7f080016;
-        public static final int listView=0x7f08001c;
-        public static final int menu_settings=0x7f08001d;
-        public static final int reversegeocode=0x7f08001a;
+        public static final int listView=0x7f080021;
+        public static final int menu_settings=0x7f080023;
+        public static final int picker_button_accept=0x7f08001a;
+        public static final int picker_button_cancel=0x7f08001b;
+        public static final int preview_new=0x7f080019;
+        public static final int reversegeocode=0x7f08001f;
+        public static final int satval_picker=0x7f080017;
+        public static final int surface=0x7f080022;
         public static final int textView2=0x7f080004;
-        public static final int text_Info=0x7f08001b;
+        public static final int text_Info=0x7f080020;
     }
     public static final class layout {
         public static final int activity_base=0x7f030000;
@@ -81,8 +90,9 @@ public final class R {
         public static final int activity_menu=0x7f030005;
         public static final int activity_register=0x7f030006;
         public static final int activity_setting=0x7f030007;
-        public static final int geocoder=0x7f030008;
-        public static final int main=0x7f030009;
+        public static final int color_picker=0x7f030008;
+        public static final int geocoder=0x7f030009;
+        public static final int main=0x7f03000a;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -94,26 +104,29 @@ public final class R {
         public static final int setting=0x7f070006;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f050010;
+        public static final int accept=0x7f05000c;
+        public static final int action_forgot_password=0x7f050013;
         public static final int action_settings=0x7f050006;
-        public static final int action_sign_in_register=0x7f05000e;
-        public static final int action_sign_in_short=0x7f05000f;
+        public static final int action_sign_in_register=0x7f050011;
+        public static final int action_sign_in_short=0x7f050012;
         public static final int app_name=0x7f050000;
-        public static final int error_field_required=0x7f050015;
-        public static final int error_incorrect_password=0x7f050014;
-        public static final int error_invalid_email=0x7f050012;
-        public static final int error_invalid_password=0x7f050013;
+        public static final int cancel=0x7f05000d;
+        public static final int error_field_required=0x7f050018;
+        public static final int error_incorrect_password=0x7f050017;
+        public static final int error_invalid_email=0x7f050015;
+        public static final int error_invalid_password=0x7f050016;
         public static final int hello_world=0x7f050001;
-        public static final int login_progress_signing_in=0x7f050011;
+        public static final int login_progress_signing_in=0x7f050014;
         public static final int menu_settings=0x7f050002;
         public static final int network_service=0x7f05000a;
+        public static final int pick_a_color=0x7f05000b;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f05000c;
-        public static final int prompt_password=0x7f05000d;
+        public static final int prompt_email=0x7f05000f;
+        public static final int prompt_password=0x7f050010;
         public static final int title_activity_base=0x7f050004;
         public static final int title_activity_individual=0x7f050008;
-        public static final int title_activity_login=0x7f05000b;
+        public static final int title_activity_login=0x7f05000e;
         public static final int title_activity_main=0x7f050003;
         public static final int title_activity_menu=0x7f050007;
         public static final int title_activity_register=0x7f050005;

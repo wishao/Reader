@@ -14,6 +14,7 @@ import com.reader.model.User;
 import com.reader.util.Config;
 import com.reader.util.Constant;
 import com.reader.util.HttpUtils;
+import com.reader.util.IDUtil;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,17 +33,19 @@ public class Image2Listener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+
 		Reader reader = new Reader();
 		ReaderHelper rhelper = new ReaderHelper(context.getApplicationContext());
 		reader = rhelper.findReader();
 		UserHelper uhelper = new UserHelper(context.getApplicationContext());
 		User user = uhelper.findUser();
+		String path = Config.HTTP_READER_SELECT;
+		String params = "user_id=" + user.getId();
+		JSONObject result = HttpUtils.getJsonByPost(path, params);
 		if (isNetworkAvailable()) {
-			if (reader != null) {
-				try {
-					String path = Config.HTTP_READER_SELECT;
-					String params = "user_id=" + user.getId();
-					JSONObject result = HttpUtils.getJsonByPost(path, params);
+			try {
+				if (reader != null) {
+
 					Timestamp localTime = reader.getCreateTime();
 					Timestamp netTime = new Timestamp((Constant.sf).parse(
 							result.getString("create_time")).getTime());
@@ -68,12 +71,34 @@ public class Image2Listener implements OnClickListener {
 						reader.setFontColor(result.getString("font_color"));
 						rhelper.updateReader(reader);
 					}
-				} catch (ParseException e) {
-					e.printStackTrace();
-				} catch (JSONException e) {
-					e.printStackTrace();
+
+				} else {
+					reader = new Reader();
+					reader.setId(result.getString("id"));
+					user.setId(result.getString("user_id"));
+					reader.setUser(user);
+					reader.setFont(result.getString("font"));
+					reader.setBackgroundColor(result
+							.getString("background_color"));
+					reader.setCreateTime(new Timestamp((Constant.sf).parse(
+							result.getString("create_time")).getTime()));
+					reader.setFontColor(result.getString("font_color"));
+					rhelper.insertReader(reader);
 				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
+		} else if (reader == null) {
+			reader = new Reader();
+			reader.setId(IDUtil.getID());
+			reader.setUser(user);
+			reader.setBackgroundColor(Constant.RESET_READER_BACKGROUND_COLOR);
+			reader.setCreateTime(new Timestamp(0));
+			reader.setFont(Constant.RESET_READER_FONT);
+			reader.setFontColor(Constant.RESET_READER_FONT_COLOR);
+			rhelper.insertReader(reader);
 		}
 		Intent intent = new Intent();
 		Bundle bundle = new Bundle();

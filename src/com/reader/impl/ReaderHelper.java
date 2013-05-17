@@ -1,8 +1,10 @@
 package com.reader.impl;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.reader.model.Reader;
 import com.reader.model.User;
@@ -101,13 +103,14 @@ public class ReaderHelper {
 	 * @param urlstr
 	 */
 	public void updateReader(Reader reader) {
+		String currenttime = Constant.sf.format(new Date());
+		Timestamp createtime = Timestamp.valueOf(currenttime);
 		db = dbHelper.getWritableDatabase();
 		db.execSQL(
 				"update t_reader set id=?,user_id=?,font=?,background_color=?,font_color=?,create_time=?;",
 				new Object[] { reader.getId(), reader.getUser().getId(),
 						reader.getFont(), reader.getBackgroundColor(),
-						reader.getFontColor(),
-						reader.getCreateTime().toString() });
+						reader.getFontColor(), createtime });
 		db.close();
 
 	}
