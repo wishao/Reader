@@ -1,9 +1,7 @@
 package com.reader.impl;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.reader.model.Reader;
