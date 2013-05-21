@@ -13,4 +13,6 @@ public class Config {
 			+ "reader!selectByUser";
 	public static final String HTTP_READER_UPDATE = HTTP_PATH
 			+ "reader!update";
+	public static final String HTTP_BOOK_UPDATE = HTTP_PATH
+			+ "book!allByClient";
 }

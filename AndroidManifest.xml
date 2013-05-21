@@ -79,6 +79,19 @@
             android:name="com.reader.activity.SettingActivity"
             android:label="@string/title_setting" >
         </activity>
+        <activity
+            android:name="com.reader.activity.BookListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.reader.view.ItemList" >
+        </activity>
+        <activity android:name="com.reader.view.ContentList" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >

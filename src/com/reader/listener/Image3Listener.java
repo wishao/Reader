@@ -1,20 +1,13 @@
 package com.reader.listener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.reader.activity.BookListActivity;
 
-import com.reader.R;
-import com.reader.activity.MenuActivity;
-import com.reader.model.User;
-import com.reader.util.Config;
-import com.reader.util.HttpUtils;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class Image3Listener implements OnClickListener {
@@ -26,8 +19,30 @@ public class Image3Listener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(context, "开发中", Toast.LENGTH_SHORT).show();
+		if (isNetworkAvailable()) {
+			Intent intent = new Intent();
+			intent.setClass(context, BookListActivity.class);
+			context.startActivity(intent);
+		} else {
+			Toast.makeText(context, "请检查网络连接", Toast.LENGTH_SHORT).show();
+		}
 
 	}
 
+	public boolean isNetworkAvailable() {
+		ConnectivityManager connectivity = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity == null) {
+		} else {// 获取所有网络连接信息
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if (info != null) {// 逐一查找状态为已连接的网络
+				for (int i = 0; i < info.length; i++) {
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
