@@ -17,7 +17,8 @@
         android:layout_alignRight="@+id/editText1"
         android:layout_centerVertical="true"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:text="123" />
 
     <Button
         android:id="@+id/Button01"
@@ -36,7 +37,8 @@
         android:layout_above="@+id/editText2"
         android:layout_marginBottom="15dp"
         android:layout_toRightOf="@+id/textView2"
-        android:ems="10" />
+        android:ems="10"
+        android:text="a" />
 
     <TextView
         android:id="@+id/textView2"
