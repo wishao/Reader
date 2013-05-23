@@ -10,12 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,9 +57,8 @@ public class MyBookActivity extends Activity {
 		listView = (NewBookListView) findViewById(R.id.listView);
 
 		adapter = new SimpleAdapter(MyBookActivity.this, list,
-				R.layout.content, new String[] { "title", "information",
-						"image" }, new int[] { R.id.ContentTitle,
-						R.id.ContentComment, R.id.image });
+				R.layout.content, new String[] { "title", "image" }, new int[] {
+						R.id.ContentTitle, R.id.image });
 		listView.setAdapter(adapter);
 		listView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
@@ -74,29 +70,29 @@ public class MyBookActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				JSONObject result;
-				try {
-					result = new JSONObject(arg0.getItemAtPosition(arg2)
-							.toString());
+				String a = (arg0.getItemAtPosition(arg2)).toString();
+				int b = a.indexOf("id=") + 3;
+				int c = a.indexOf(", information=");
+				String id = a.substring(b, c);
+				int d = c + 14;
+				int e = a.indexOf(", title=");
+				String information = a.substring(d, e);
+				int f = e + 8;
+				String title = a.substring(f, a.length() - 1);
 
-					Intent intent = new Intent();
-					intent.setClass(getApplicationContext(),
-							ReaderActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					Bundle bundle = new Bundle();
-					Record record = new Record();
-					record.setId(result.getString("id"));
-					Book book = new Book();
-					book.setId(result.getString("image"));
-					record.setBook(book);
-					bundle.putSerializable("record", record);
-					intent.putExtras(bundle);
-					getApplicationContext().startActivity(intent);
-					listView.invalidateViews();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), ReaderActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				Bundle bundle = new Bundle();
+				Record record = new Record();
+				record.setId(id);
+				Book book = new Book();
+				book.setId(information);
+				record.setBook(book);
+				bundle.putSerializable("record", record);
+				intent.putExtras(bundle);
+				getApplicationContext().startActivity(intent);
+				listView.invalidateViews();
 			}
 		});
 
@@ -121,7 +117,7 @@ public class MyBookActivity extends Activity {
 					map.put("title",
 							((JSONObject) rows.get(i)).getString("book_name"));
 					map.put("id", ((JSONObject) rows.get(i)).getString("id"));
-					map.put("image",
+					map.put("information",
 							((JSONObject) rows.get(i)).getString("book_id"));
 					list.add(0, map);
 				}

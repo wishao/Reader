@@ -119,18 +119,19 @@ public final class R {
         public static final int activity_main=0x7f030005;
         public static final int activity_menu=0x7f030006;
         public static final int activity_register=0x7f030007;
-        public static final int activity_setting=0x7f030008;
-        public static final int color_picker=0x7f030009;
-        public static final int content=0x7f03000a;
-        public static final int content_view=0x7f03000b;
-        public static final int filebrowser=0x7f03000c;
-        public static final int filelist=0x7f03000d;
-        public static final int geocoder=0x7f03000e;
-        public static final int head=0x7f03000f;
-        public static final int item_newbook=0x7f030010;
-        public static final int main=0x7f030011;
-        public static final int newbook_main=0x7f030012;
-        public static final int row=0x7f030013;
+        public static final int activity_say=0x7f030008;
+        public static final int activity_setting=0x7f030009;
+        public static final int color_picker=0x7f03000a;
+        public static final int content=0x7f03000b;
+        public static final int content_view=0x7f03000c;
+        public static final int filebrowser=0x7f03000d;
+        public static final int filelist=0x7f03000e;
+        public static final int geocoder=0x7f03000f;
+        public static final int head=0x7f030010;
+        public static final int item_newbook=0x7f030011;
+        public static final int main=0x7f030012;
+        public static final int newbook_main=0x7f030013;
+        public static final int row=0x7f030014;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
@@ -139,36 +140,40 @@ public final class R {
         public static final int login=0x7f080003;
         public static final int menu=0x7f080004;
         public static final int register=0x7f080005;
-        public static final int setting=0x7f080006;
+        public static final int say=0x7f080006;
+        public static final int setting=0x7f080007;
     }
     public static final class string {
         public static final int accept=0x7f06000c;
-        public static final int action_forgot_password=0x7f060014;
+        public static final int action_forgot_password=0x7f060017;
         public static final int action_settings=0x7f060006;
-        public static final int action_sign_in_register=0x7f060012;
-        public static final int action_sign_in_short=0x7f060013;
+        public static final int action_sign_in_register=0x7f060015;
+        public static final int action_sign_in_short=0x7f060016;
         public static final int app_name=0x7f060000;
         public static final int cancel=0x7f06000d;
-        public static final int error_field_required=0x7f060019;
-        public static final int error_incorrect_password=0x7f060018;
-        public static final int error_invalid_email=0x7f060016;
-        public static final int error_invalid_password=0x7f060017;
+        public static final int error_field_required=0x7f06001c;
+        public static final int error_incorrect_password=0x7f06001b;
+        public static final int error_invalid_email=0x7f060019;
+        public static final int error_invalid_password=0x7f06001a;
         public static final int hello_world=0x7f060001;
         public static final int loadmore=0x7f06000e;
-        public static final int login_progress_signing_in=0x7f060015;
+        public static final int login_progress_signing_in=0x7f060018;
         public static final int menu_settings=0x7f060002;
+        public static final int my_book=0x7f060011;
         public static final int network_service=0x7f06000a;
+        public static final int new_book=0x7f060010;
         public static final int pick_a_color=0x7f06000b;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f060010;
-        public static final int prompt_password=0x7f060011;
+        public static final int prompt_email=0x7f060013;
+        public static final int prompt_password=0x7f060014;
         public static final int title_activity_base=0x7f060004;
         public static final int title_activity_individual=0x7f060008;
-        public static final int title_activity_login=0x7f06000f;
+        public static final int title_activity_login=0x7f060012;
         public static final int title_activity_main=0x7f060003;
         public static final int title_activity_menu=0x7f060007;
         public static final int title_activity_register=0x7f060005;
+        public static final int title_activity_say=0x7f06000f;
         public static final int title_setting=0x7f060009;
     }
     public static final class style {

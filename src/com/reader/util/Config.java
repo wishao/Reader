@@ -22,5 +22,9 @@ public class Config {
 			+ "record!getById";
 	public static final String HTTP_RECORD_UPDATE_READ = HTTP_PATH
 			+ "record!updateByReader";
+	public static final String HTTP_CONTACT_SELECT = HTTP_PATH
+			+ "contact!getByClient";
+	public static final String HTTP_CONTACT_ADD = HTTP_PATH
+			+ "contact!add";
 
 }

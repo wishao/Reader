@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -18,19 +16,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.reader.R;
 import com.reader.impl.UserHelper;
-import com.reader.model.Book;
-import com.reader.model.Record;
 import com.reader.model.User;
 import com.reader.util.Config;
 import com.reader.util.HttpUtils;
 import com.reader.view.NewBookListView;
 import com.reader.view.NewBookListView.OnRefreshListener;
 
-public class NewBookActivity extends Activity {
+public class DialogListActivity extends Activity {
 	private BaseAdapter adapter;
 	private List<Map<String, Object>> list;
 	NewBookListView listView;
@@ -51,7 +46,7 @@ public class NewBookActivity extends Activity {
 		list = new ArrayList<Map<String, Object>>();
 		listView = (NewBookListView) findViewById(R.id.listView);
 
-		adapter = new SimpleAdapter(NewBookActivity.this, list,
+		adapter = new SimpleAdapter(DialogListActivity.this, list,
 				R.layout.content, new String[] { "title", "information",
 						"image" }, new int[] { R.id.ContentTitle,
 						R.id.ContentComment, R.id.image });
@@ -69,63 +64,23 @@ public class NewBookActivity extends Activity {
 				String a = (arg0.getItemAtPosition(arg2)).toString();
 				int b = a.indexOf("id=") + 3;
 				int c = a.indexOf(", information=");
-				final String id = a.substring(b, c);
+				String id = a.substring(b, c);
 				int d = c + 14;
 				int e = a.indexOf(", title=");
 				String information = a.substring(d, e);
 				int f = e + 8;
 				String title = a.substring(f, a.length() - 1);
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						NewBookActivity.this);
-				builder.setTitle("订阅");
-				builder.setMessage("《" + title + "》是否添加到我的记录？");
-				builder.setPositiveButton("确认",
-						new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								Record record = new Record();
-								UserHelper uhelper = new UserHelper(
-										getApplicationContext());
-								User user = uhelper.findUser();
-								Book book = new Book();
-								book.setId(id);
-								record.setUser(user);
-								record.setBook(book);
-								record.setEvaluation("");
-								record.setRecord(1);
-								record.setScore(0);
-								record.setShare(new Byte("1"));
-								String path = Config.HTTP_RECORD_ADD;
-								String params = "user_id="
-										+ record.getUser().getId()
-										+ "&book_id="
-										+ record.getBook().getId() + "&record="
-										+ record.getRecord() + "&evaluation="
-										+ record.getEvaluation() + "&score="
-										+ record.getScore() + "&share="
-										+ record.getShare();
-								JSONObject result = HttpUtils.getJsonByPost(
-										path, params);
-								try {
-									Toast.makeText(getApplicationContext(),
-											result.getString("message"),
-											Toast.LENGTH_SHORT).show();
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-
-							}
-
-						});
-				builder.setNegativeButton("取消", null);
-				builder.create().show();
-
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), SayActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("id", id);
+				intent.putExtras(bundle);
+				getApplicationContext().startActivity(intent);
 				listView.invalidateViews();
-
 			}
 		});
-
 	}
 
 	class PageTask extends AsyncTask<String, Integer, String> {
@@ -133,20 +88,40 @@ public class NewBookActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				String path = Config.HTTP_BOOK_UPDATE;
-				String params1 = "start=" + page * pageSize + "&limit="
-						+ pageSize;
+				UserHelper uhelper = new UserHelper(getApplicationContext());
+				User user = uhelper.findUser();
+				String path = Config.HTTP_CONTACT_SELECT;
+				String params1 = "user_id=" + user.getId() + "&start=" + page
+						* pageSize + "&limit=" + pageSize;
 				page++;
 				JSONObject result = HttpUtils.getJsonByPost(path, params1);
 				JSONArray rows = new JSONArray();
 				rows = result.getJSONArray("rows");
 				for (int i = 0; i < rows.length(); i++) {
 					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("title",
-							((JSONObject) rows.get(i)).getString("name"));
-					map.put("id", ((JSONObject) rows.get(i)).getString("id"));
+					String id = "";
+					String send = ((JSONObject) rows.get(i))
+							.getString("send_user_name");
+					String receive = ((JSONObject) rows.get(i))
+							.getString("receive_user_name");
+					String send_id = ((JSONObject) rows.get(i))
+							.getString("send_user_id");
+					String receive_id = ((JSONObject) rows.get(i))
+							.getString("receive_user_id");
+					if (send_id.equals(user.getId())) {
+						send = "我";
+						id = ((JSONObject) rows.get(i))
+								.getString("receive_user_id");
+					}
+					if (receive_id.equals(user.getId())) {
+						receive = "我";
+						id = ((JSONObject) rows.get(i))
+								.getString("send_user_id");
+					}
+					map.put("title", send + "对" + receive);
+					map.put("id", id);
 					String information = ((JSONObject) rows.get(i))
-							.getString("recommend");
+							.getString("content");
 					map.put("information", information);
 					list.add(0, map);
 				}

@@ -103,9 +103,17 @@
         </activity>
         <activity android:name="com.reader.activity.ReaderActivity" >
         </activity>
-        <activity android:name="com.reader.activity.NewBookActivity" >
+        <activity android:name="com.reader.activity.NewBookActivity"
+            android:label="@string/new_book" >
         </activity>
-        <activity android:name="com.reader.activity.MyBookActivity" >
+        <activity android:name="com.reader.activity.MyBookActivity"
+            android:label="@string/my_book" >
+        </activity>
+        <activity android:name="com.reader.activity.DialogListActivity" >
+        </activity>
+        <activity
+            android:name="com.reader.activity.SayActivity"
+            android:label="@string/title_activity_say" >
         </activity>
     </application>
 
