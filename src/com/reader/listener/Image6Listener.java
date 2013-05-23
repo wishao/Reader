@@ -4,6 +4,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.reader.R;
+import com.reader.activity.BMapApiDemoMain;
+import com.reader.activity.BaseMapDemo;
+import com.reader.activity.DialogListActivity;
+import com.reader.activity.LocationOverlayDemo;
 import com.reader.activity.MenuActivity;
 import com.reader.model.User;
 import com.reader.util.Config;
@@ -26,7 +30,9 @@ public class Image6Listener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(context, "开发中", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent();
+		intent.setClass(context, LocationOverlayDemo.class);
+		context.startActivity(intent);
 
 	}
 
