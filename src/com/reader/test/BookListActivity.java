@@ -1,4 +1,4 @@
-package com.reader.activity;
+package com.reader.test;
 
 import java.io.IOException;
 import java.io.InputStream;

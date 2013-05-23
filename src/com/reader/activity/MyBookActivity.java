@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -37,7 +38,7 @@ import com.reader.util.HttpUtils;
 import com.reader.view.NewBookListView;
 import com.reader.view.NewBookListView.OnRefreshListener;
 
-public class NewBookActivity extends Activity {
+public class MyBookActivity extends Activity {
 	private BaseAdapter adapter;
 	private List<Map<String, Object>> list;
 	NewBookListView listView;
@@ -58,7 +59,7 @@ public class NewBookActivity extends Activity {
 		list = new ArrayList<Map<String, Object>>();
 		listView = (NewBookListView) findViewById(R.id.listView);
 
-		adapter = new SimpleAdapter(NewBookActivity.this, list,
+		adapter = new SimpleAdapter(MyBookActivity.this, list,
 				R.layout.content, new String[] { "title", "information",
 						"image" }, new int[] { R.id.ContentTitle,
 						R.id.ContentComment, R.id.image });
@@ -73,74 +74,31 @@ public class NewBookActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				JSONObject result;
 				try {
-					final JSONObject result = new JSONObject(arg0.getItemAtPosition(arg2).toString());
-					AlertDialog.Builder builder = new AlertDialog.Builder(
-							NewBookActivity.this);
-					builder.setTitle("订阅");
-					builder.setMessage("《" + result.getString("title") + "》是否添加到我的记录？");
-					builder.setPositiveButton("确认",
-							new DialogInterface.OnClickListener() {
+					result = new JSONObject(arg0.getItemAtPosition(arg2)
+							.toString());
 
-								@Override
-								public void onClick(DialogInterface arg0,
-										int arg1) {
-									Record record = new Record();
-									UserHelper uhelper = new UserHelper(
-											getApplicationContext());
-									User user = uhelper.findUser();
-									Book book = new Book();
-									try {
-										book.setId(result.getString("id"));
-									} catch (JSONException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-									record.setUser(user);
-									record.setBook(book);
-									record.setEvaluation("");
-									record.setRecord(1);
-									record.setScore(0);
-									record.setShare(new Byte("1"));
-									String path = Config.HTTP_RECORD_ADD;
-									String params = "user_id="
-											+ record.getUser().getId()
-											+ "&book_id="
-											+ record.getBook().getId()
-											+ "&record=" + record.getRecord()
-											+ "&evaluation="
-											+ record.getEvaluation()
-											+ "&score=" + record.getScore()
-											+ "&share=" + record.getShare();
-									JSONObject result = HttpUtils
-											.getJsonByPost(path, params);
-									try {
-										Toast.makeText(getApplicationContext(),
-												result.getString("message"),
-												Toast.LENGTH_SHORT).show();
-									} catch (JSONException e) {
-										e.printStackTrace();
-									}
-
-								}
-
-							});
-					builder.setNegativeButton("取消", null);
-					builder.create().show();
-					/*Toast.makeText(getApplicationContext(),
-							"你点的是..." + result.getString("title"),
-							Toast.LENGTH_SHORT).show();*/
+					Intent intent = new Intent();
+					intent.setClass(getApplicationContext(),
+							ReaderActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Bundle bundle = new Bundle();
+					Record record = new Record();
+					record.setId(result.getString("id"));
+					Book book = new Book();
+					book.setId(result.getString("image"));
+					record.setBook(book);
+					bundle.putSerializable("record", record);
+					intent.putExtras(bundle);
+					getApplicationContext().startActivity(intent);
+					listView.invalidateViews();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				listView.invalidateViews();
-				
-				
 			}
 		});
-		
 
 	}
 
@@ -149,9 +107,11 @@ public class NewBookActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				String path = Config.HTTP_BOOK_UPDATE;
-				String params1 = "start=" + page * pageSize + "&limit="
-						+ pageSize;
+				String path = Config.HTTP_RECORD_SELECT;
+				UserHelper uhelper = new UserHelper(getApplicationContext());
+				User user = uhelper.findUser();
+				String params1 = "user_id=" + user.getId() + "&start=" + page
+						* pageSize + "&limit=" + pageSize;
 				page++;
 				JSONObject result = HttpUtils.getJsonByPost(path, params1);
 				JSONArray rows = new JSONArray();
@@ -159,14 +119,10 @@ public class NewBookActivity extends Activity {
 				for (int i = 0; i < rows.length(); i++) {
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("title",
-							((JSONObject) rows.get(i)).getString("name"));
+							((JSONObject) rows.get(i)).getString("book_name"));
 					map.put("id", ((JSONObject) rows.get(i)).getString("id"));
-					String information = ((JSONObject) rows.get(i))
-							.getString("recommend");
-					map.put("information", information);
-					Bitmap bm = returnBitMap(((JSONObject) rows.get(i))
-							.getString("cover"));
-					map.put("image", bm);
+					map.put("image",
+							((JSONObject) rows.get(i)).getString("book_id"));
 					list.add(0, map);
 				}
 			} catch (Exception e) {

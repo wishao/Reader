@@ -1,6 +1,6 @@
 package com.reader.listener;
 
-import com.reader.activity.MyBookListActivity;
+import com.reader.activity.MyBookActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ public class Image4Listener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent();
-		intent.setClass(context, MyBookListActivity.class);
+		intent.setClass(context, MyBookActivity.class);
 		context.startActivity(intent);
 
 	}

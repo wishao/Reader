@@ -1,6 +1,6 @@
 package com.reader.listener;
 
-import com.reader.activity.BookListActivity;
+import com.reader.activity.NewBookActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ public class Image3Listener implements OnClickListener {
 	public void onClick(View v) {
 		if (isNetworkAvailable()) {
 			Intent intent = new Intent();
-			intent.setClass(context, BookListActivity.class);
+			intent.setClass(context, NewBookActivity.class);
 			context.startActivity(intent);
 		} else {
 			Toast.makeText(context, "请检查网络连接", Toast.LENGTH_SHORT).show();

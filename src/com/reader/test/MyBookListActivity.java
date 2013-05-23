@@ -1,4 +1,4 @@
-package com.reader.activity;
+package com.reader.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.reader.R;
+import com.reader.activity.ReaderActivity;
 import com.reader.impl.UserHelper;
 import com.reader.model.Book;
 import com.reader.model.Record;
