@@ -15,5 +15,6 @@
     <string name="pick_a_color">颜色选择器</string>
     <string name="accept">确定</string>
     <string name="cancel">取消</string>
+    <string name="loadmore">更多</string>
 
 </resources>

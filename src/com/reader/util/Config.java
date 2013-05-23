@@ -14,8 +14,13 @@ public class Config {
 	public static final String HTTP_READER_UPDATE = HTTP_PATH + "reader!update";
 	public static final String HTTP_BOOK_UPDATE = HTTP_PATH
 			+ "book!allByClient";
+	public static final String HTTP_RECORD_READ = HTTP_PATH + "book!read";
 	public static final String HTTP_RECORD_SELECT = HTTP_PATH
 			+ "record!allByClient";
-	public static final String HTTP_RECORD_ADD = HTTP_PATH
-			+ "record!add";
+	public static final String HTTP_RECORD_ADD = HTTP_PATH + "record!add";
+	public static final String HTTP_RECORD_SELECT_ID = HTTP_PATH
+			+ "record!getById";
+	public static final String HTTP_RECORD_UPDATE_READ = HTTP_PATH
+			+ "record!updateByReader";
+
 }

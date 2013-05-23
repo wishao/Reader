@@ -20,7 +20,6 @@ import com.reader.model.User;
 import com.reader.util.Config;
 import com.reader.util.HttpUtils;
 import com.reader.view.Content;
-import com.reader.view.ItemList;
 
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -61,8 +60,6 @@ public class BookListActivity extends TabActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		final TabHost tabHost = getTabHost();
 		try {
-			tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("我的记录")
-					.setContent(new Intent(this, ItemList.class)));
 			tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("新书上架")
 					.setContent(new TabContentFactory() {
 
@@ -96,7 +93,6 @@ public class BookListActivity extends TabActivity {
 							ca = new ContentAdapter(getApplicationContext(), 0,
 									items);
 							listView.setAdapter(ca);
-
 							return listView;
 						}
 					}));
@@ -227,9 +223,6 @@ public class BookListActivity extends TabActivity {
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		/*
-		 * menu.add(0, 1, 1, "上一页"); menu.add(0, 1, 2, "下一页");
-		 */
 		return true;
 	}
 

@@ -88,9 +88,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.reader.activity.MyBookListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.reader.view.ItemList" >
         </activity>
         <activity android:name="com.reader.view.ContentList" >
+        </activity>
+        <activity android:name="com.reader.activity.ReaderActivity" >
+        </activity>
+        <activity android:name="com.reader.activity.NewBookActivity" >
         </activity>
     </application>
 
