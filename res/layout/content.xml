@@ -18,6 +18,14 @@
 
 		<ImageView android:id="@+id/image" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:paddingRight="10dip" />
+
+		<TextView
+		    android:id="@+id/book_id"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="TextView"
+		    android:visibility="gone" />
+
 		<TextView android:id="@+id/ContentTitle"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:textStyle="bold" android:textSize="30px"></TextView>

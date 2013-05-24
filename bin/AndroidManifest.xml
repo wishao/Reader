@@ -113,6 +113,10 @@
             android:name="com.reader.activity.BookActivity"
             android:label="@string/title_book" >
         </activity>
+        <activity
+            android:name="com.reader.activity.RecomendActivity"
+            android:label="@string/title_recomend" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >

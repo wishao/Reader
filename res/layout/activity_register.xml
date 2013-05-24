@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText1"
         android:layout_alignRight="@+id/editText1"
-        android:layout_below="@+id/TextView01"
+        android:layout_below="@+id/book_id"
         android:ems="10"
         android:inputType="textPassword" >
 
@@ -53,13 +53,13 @@
         android:id="@+id/TextView02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
+        android:layout_alignLeft="@+id/book_id"
         android:layout_below="@+id/editText2"
         android:text="再次输入密码："
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/book_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView2"

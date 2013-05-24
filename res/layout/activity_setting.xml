@@ -10,7 +10,7 @@
     tools:context=".IndividualActivity" >
 
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/book_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -22,7 +22,7 @@
         android:id="@+id/TextView02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
+        android:layout_alignLeft="@+id/book_id"
         android:layout_below="@+id/editText1"
         android:text="背景颜色："
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -31,7 +31,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
+        android:layout_alignLeft="@+id/book_id"
         android:layout_alignParentTop="true"
         android:text="字体大小："
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText2"
         android:layout_alignRight="@+id/editText2"
-        android:layout_below="@+id/TextView01"
+        android:layout_below="@+id/book_id"
         android:editable="false"
         android:ems="10" />
 

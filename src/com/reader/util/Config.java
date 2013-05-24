@@ -9,6 +9,8 @@ public class Config {
 			+ "user!updatePasswordFromClient";
 	public static final String HTTP_UPDATE_ADDRESS = HTTP_PATH
 			+ "user!updateAddress";
+	public static final String HTTP_USER_UPDATE = HTTP_PATH
+			+ "user!updateSignature";
 	public static final String HTTP_REGISTER = HTTP_PATH + "user!addFromClient";
 
 	public static final String HTTP_READER_SELECT = HTTP_PATH
@@ -16,19 +18,19 @@ public class Config {
 	public static final String HTTP_READER_UPDATE = HTTP_PATH + "reader!update";
 	public static final String HTTP_BOOK_UPDATE = HTTP_PATH
 			+ "book!allByClient";
-	public static final String HTTP_BOOK_SELECT = HTTP_PATH
-			+ "book!getById";
+	public static final String HTTP_BOOK_SELECT = HTTP_PATH + "book!getById";
 	public static final String HTTP_RECORD_READ = HTTP_PATH + "book!read";
 	public static final String HTTP_RECORD_SELECT = HTTP_PATH
 			+ "record!allByClient";
 	public static final String HTTP_RECORD_ADD = HTTP_PATH + "record!add";
 	public static final String HTTP_RECORD_SELECT_ID = HTTP_PATH
 			+ "record!getById";
+	public static final String HTTP_RECORD_DELETE = HTTP_PATH + "record!delete";
+	public static final String HTTP_RECORD_UPDATE = HTTP_PATH + "record!update";
 	public static final String HTTP_RECORD_UPDATE_READ = HTTP_PATH
 			+ "record!updateByReader";
 	public static final String HTTP_CONTACT_SELECT = HTTP_PATH
 			+ "contact!getByClient";
-	public static final String HTTP_CONTACT_ADD = HTTP_PATH
-			+ "contact!add";
+	public static final String HTTP_CONTACT_ADD = HTTP_PATH + "contact!add";
 
 }

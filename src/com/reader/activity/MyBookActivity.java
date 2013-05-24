@@ -1,29 +1,30 @@
 package com.reader.activity;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.reader.R;
 import com.reader.impl.UserHelper;
@@ -57,8 +58,8 @@ public class MyBookActivity extends Activity {
 		listView = (NewBookListView) findViewById(R.id.listView);
 
 		adapter = new SimpleAdapter(MyBookActivity.this, list,
-				R.layout.content, new String[] { "title", "image" }, new int[] {
-						R.id.ContentTitle, R.id.image });
+				R.layout.content, new String[] { "id", "title", "book_id" },
+				new int[] { R.id.id, R.id.ContentTitle, R.id.book_id });
 		listView.setAdapter(adapter);
 		listView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
@@ -66,35 +67,7 @@ public class MyBookActivity extends Activity {
 				task.execute();
 			}
 		});
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				String a = (arg0.getItemAtPosition(arg2)).toString();
-				int b = a.indexOf("id=") + 3;
-				int c = a.indexOf(", information=");
-				String id = a.substring(b, c);
-				int d = c + 14;
-				int e = a.indexOf(", title=");
-				String information = a.substring(d, e);
-				int f = e + 8;
-				String title = a.substring(f, a.length() - 1);
-
-				Intent intent = new Intent();
-				intent.setClass(getApplicationContext(), ReaderActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				Bundle bundle = new Bundle();
-				Record record = new Record();
-				record.setId(id);
-				Book book = new Book();
-				book.setId(information);
-				record.setBook(book);
-				bundle.putSerializable("record", record);
-				intent.putExtras(bundle);
-				getApplicationContext().startActivity(intent);
-				listView.invalidateViews();
-			}
-		});
+		registerForContextMenu(listView);
 
 	}
 
@@ -117,7 +90,7 @@ public class MyBookActivity extends Activity {
 					map.put("title",
 							((JSONObject) rows.get(i)).getString("book_name"));
 					map.put("id", ((JSONObject) rows.get(i)).getString("id"));
-					map.put("information",
+					map.put("book_id",
 							((JSONObject) rows.get(i)).getString("book_id"));
 					list.add(0, map);
 				}
@@ -137,35 +110,90 @@ public class MyBookActivity extends Activity {
 
 	}
 
-	public Bitmap returnBitMap(String url) {
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getMenuInfo() instanceof AdapterContextMenuInfo) {
+			AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
+					.getMenuInfo();
+			TextView tv = (TextView) menuInfo.targetView.findViewById(R.id.id);
+			final String id = tv.getText().toString();
+			tv = (TextView) menuInfo.targetView.findViewById(R.id.ContentTitle);
+			String title = tv.getText().toString();
+			tv = (TextView) menuInfo.targetView.findViewById(R.id.book_id);
+			final String bookId = tv.getText().toString();
+			// 处理菜单的点击事件
+			Record record = new Record();
+			Intent intent = new Intent();
+			Bundle bundle = new Bundle();
+			record.setId(id);
+			switch (item.getItemId()) {
+			case R.id.read:
+				intent.setClass(getApplicationContext(), ReaderActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				record = new Record();
+				record.setId(id);
+				Book book = new Book();
+				book.setId(bookId);
+				record.setBook(book);
+				bundle.putSerializable("record", record);
+				intent.putExtras(bundle);
+				getApplicationContext().startActivity(intent);
+				break;
+			case R.id.recomend:
+				record = new Record();
+				record.setId(id);
+				intent = new Intent();
+				intent.setClass(getApplicationContext(), RecomendActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				bundle.putSerializable("record", record);
+				intent.putExtras(bundle);
+				getApplicationContext().startActivity(intent);
+				break;
+			case R.id.delete:
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						MyBookActivity.this);
+				builder.setTitle("取消订阅");
+				builder.setMessage("《" + title + "》是否从我的记录删除？");
+				builder.setPositiveButton("确认",
+						new DialogInterface.OnClickListener() {
 
-		URL myFileUrl = null;
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								Record record = new Record();
+								record.setId(id);
+								String path = Config.HTTP_RECORD_DELETE;
+								String params = "id=" + record.getId();
+								JSONObject result = HttpUtils.getJsonByPost(
+										path, params);
+								try {
+									Toast.makeText(getApplicationContext(),
+											result.getString("message"),
+											Toast.LENGTH_SHORT).show();
+									MyBookActivity.this.finish();
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
 
-		Bitmap bitmap = null;
+							}
 
-		try {
-
-			myFileUrl = new URL(url);
-
-		} catch (MalformedURLException e) {
-
-			e.printStackTrace();
+						});
+				builder.setNegativeButton("取消", null);
+				builder.create().show();
+				break;
+			}
 
 		}
-
-		try {
-
-			HttpURLConnection conn = (HttpURLConnection) myFileUrl
-					.openConnection();
-			conn.setDoInput(true);
-			conn.connect();
-			InputStream is = conn.getInputStream();
-			bitmap = BitmapFactory.decodeStream(is);
-			is.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return bitmap;
+		return super.onContextItemSelected(item);
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		if (v.getId() == R.id.listView) {
+			MenuInflater inflater = getMenuInflater();
+			menu.setHeaderTitle("请选择");
+			inflater.inflate(R.menu.my_book_menu, menu);
+		}
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
 }
