@@ -34,6 +34,7 @@
         <activity
             android:name="com.reader.activity.ItemizedOverlayDemo"
             android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_item"
             android:screenOrientation="sensor" >
         </activity>
         <activity
@@ -60,10 +61,9 @@
             android:name="com.reader.activity.SettingActivity"
             android:label="@string/title_setting" >
         </activity>
-        
         <activity
             android:name="com.reader.activity.MyBookListActivity"
-            android:label="@string/app_name" >
+            android:label="@string/title_my_booklist" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,7 +74,8 @@
         </activity>
         <activity android:name="com.reader.view.ContentList" >
         </activity>
-        <activity android:name="com.reader.activity.ReaderActivity" >
+        <activity android:name="com.reader.activity.ReaderActivity"
+            android:label="@string/title_reader" >
         </activity>
         <activity
             android:name="com.reader.activity.NewBookActivity"
@@ -97,6 +98,10 @@
         <activity
             android:name="com.reader.activity.RecomendActivity"
             android:label="@string/title_recomend" >
+        </activity>
+        <activity
+            android:name="com.reader.activity.UserActivity"
+            android:label="@string/title_user" >
         </activity>
     </application>
 

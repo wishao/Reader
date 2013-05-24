@@ -13,6 +13,7 @@ public class Config {
 			+ "user!updateSignature";
 	public static final String HTTP_REGISTER = HTTP_PATH + "user!addFromClient";
 	public static final String HTTP_USER_MAP = HTTP_PATH + "user!allByClient";
+	public static final String HTTP_USER_SELECT = HTTP_PATH + "user!getById";
 	public static final String HTTP_READER_SELECT = HTTP_PATH
 			+ "reader!selectByUser";
 	public static final String HTTP_READER_UPDATE = HTTP_PATH + "reader!update";

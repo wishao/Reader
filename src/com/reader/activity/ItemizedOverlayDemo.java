@@ -1,5 +1,6 @@
 package com.reader.activity;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -364,8 +366,40 @@ class OverlayTest extends ItemizedOverlay<OverlayItem> {
 	}
 
 	protected boolean onTap(int index) {
-		Toast.makeText(mContext, "登录失败" + userList.get(index).toString(),
-				Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent();
+		Bundle bundle = new Bundle();
+		User user = new User();
+		String path = Config.HTTP_USER_SELECT;
+
+		String params = "id=" + userList.get(index).getId();
+		JSONObject result = HttpUtils.getJsonByPost(path, params);
+		try {
+			if (result.getBoolean("result")) {
+
+				user.setId(result.getString("id"));
+				user.setName(result.getString("name"));
+				user.setCreateTime(new Timestamp((Constant.sf).parse(
+						result.getString("create_time")).getTime()));
+				user.setAddress(result.getString("address"));
+				user.setSignature(result.getString("signature"));
+				user.setUpdateTime(new Timestamp((Constant.sf).parse(
+						result.getString("update_time")).getTime()));
+				user.setStatus(new Byte(result.getString("status")));
+				Toast.makeText(mContext, result.getString("msg"),
+						Toast.LENGTH_SHORT).show();
+				bundle.putSerializable("user", user);
+				intent.putExtras(bundle);
+				intent.setClass(mContext, UserActivity.class);
+				mContext.startActivity(intent);
+			} else {
+				Toast.makeText(mContext, result.getString("msg"),
+						Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 
