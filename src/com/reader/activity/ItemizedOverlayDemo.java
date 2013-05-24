@@ -186,23 +186,13 @@ public class ItemizedOverlayDemo extends Activity {
 				mGeoList.add(item);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		 * // overlay 数量 int iSize = 20; double pi = 3.1415926; // overlay半径 int
-		 * r = Constant.MAP_OVERLAY; // 准备overlay 数据 for (int i = 0; i < iSize;
-		 * i++) { int lat = (int) (cLat + r * Math.cos(2 * i * pi / iSize)); int
-		 * lon = (int) (cLon + r * Math.sin(2 * i * pi / iSize)); OverlayItem
-		 * item = new OverlayItem(new GeoPoint(lat, lon), "item" + i, "item" +
-		 * i); item.setMarker(res.get(0)); mGeoList.add(item); }
-		 */
 	}
 
 	public void testUpdateClick() {
 		mLocClient.start();
 		mLocClient.requestLocation();
-		// mLocClient.stop();
 	}
 
 	Handler mHandler = new Handler() {
@@ -252,8 +242,13 @@ public class ItemizedOverlayDemo extends Activity {
 					+ user.getAddress();
 			JSONObject result = HttpUtils.getJsonByPost(path, params);
 
-			Toast.makeText(ItemizedOverlayDemo.this, address,
-					Toast.LENGTH_SHORT).show();
+			try {
+				Toast.makeText(ItemizedOverlayDemo.this,
+						result.getString("message"), Toast.LENGTH_SHORT).show();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 
