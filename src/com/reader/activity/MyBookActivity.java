@@ -169,7 +169,12 @@ public class MyBookActivity extends Activity {
 									Toast.makeText(getApplicationContext(),
 											result.getString("message"),
 											Toast.LENGTH_SHORT).show();
-									MyBookActivity.this.finish();
+									Intent intent = new Intent();
+									intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+									intent.setClass(getApplicationContext(),
+											MenuActivity.class);
+									getApplicationContext().startActivity(
+											intent);
 								} catch (JSONException e) {
 									e.printStackTrace();
 								}

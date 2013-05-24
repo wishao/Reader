@@ -12,19 +12,19 @@
 
     <Button
     	android:id="@+id/button1"
-    	android:text="AddItem"
+    	android:text="获取周边用户"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     />
     <Button
     	android:id="@+id/button2"
-    	android:text="ClearOneItem"
+    	android:text="我的位置"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     />
     <Button
     	android:id="@+id/button3"
-    	android:text="ClearAll"
+    	android:text="清空周边用户"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     />

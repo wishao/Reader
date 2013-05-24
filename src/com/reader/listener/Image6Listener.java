@@ -7,6 +7,7 @@ import com.reader.R;
 import com.reader.activity.BMapApiDemoMain;
 import com.reader.activity.BaseMapDemo;
 import com.reader.activity.DialogListActivity;
+import com.reader.activity.ItemizedOverlayDemo;
 import com.reader.activity.LocationOverlayDemo;
 import com.reader.activity.MenuActivity;
 import com.reader.model.User;
@@ -31,7 +32,7 @@ public class Image6Listener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent();
-		intent.setClass(context, LocationOverlayDemo.class);
+		intent.setClass(context, ItemizedOverlayDemo.class);
 		context.startActivity(intent);
 
 	}

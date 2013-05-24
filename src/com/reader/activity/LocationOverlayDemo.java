@@ -1,8 +1,12 @@
 package com.reader.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,6 +29,7 @@ import com.baidu.mapapi.map.MapController;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationOverlay;
+import com.baidu.mapapi.map.OverlayItem;
 import com.baidu.mapapi.utils.CoordinateConver;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.reader.R;
@@ -34,7 +39,12 @@ import com.reader.util.Config;
 import com.reader.util.HttpUtils;
 
 public class LocationOverlayDemo extends Activity {
-
+	double cLat;
+	double cLon;
+	// 存放overlayitem
+	public List<OverlayItem> mGeoList = new ArrayList<OverlayItem>();
+	// 存放overlay图片
+	public List<Drawable> res = new ArrayList<Drawable>();
 	static MapView mMapView = null;
 
 	private MapController mMapController = null;
@@ -114,10 +124,56 @@ public class LocationOverlayDemo extends Activity {
 				mMapListener);
 		myLocationOverlay = new MyLocationOverlay(mMapView);
 		locData = new LocationData();
+
 		myLocationOverlay.setData(locData);
 		mMapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableCompass();
 		mMapView.refresh();
+
+		cLat = locData.latitude;
+		cLon = locData.longitude;
+		mMapListener = new MKMapViewListener() {
+
+			@Override
+			public void onMapMoveFinish() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onClickMapPoi(MapPoi mapPoiInfo) {
+				// TODO Auto-generated method stub
+				String title = "";
+				if (mapPoiInfo != null) {
+					title = mapPoiInfo.strText;
+					Toast.makeText(LocationOverlayDemo.this, title,
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		};
+		res.add(getResources().getDrawable(R.drawable.icon_marka));
+		res.add(getResources().getDrawable(R.drawable.icon_markb));
+		res.add(getResources().getDrawable(R.drawable.icon_markc));
+		res.add(getResources().getDrawable(R.drawable.icon_markd));
+		res.add(getResources().getDrawable(R.drawable.icon_marke));
+		res.add(getResources().getDrawable(R.drawable.icon_markf));
+		res.add(getResources().getDrawable(R.drawable.icon_markg));
+		res.add(getResources().getDrawable(R.drawable.icon_markh));
+		res.add(getResources().getDrawable(R.drawable.icon_marki));
+		// overlay 数量
+		int iSize = 20;
+		double pi = 3.1415926;
+		// overlay半径
+		double r = 0.5;
+		// 准备overlay 数据
+		for (int i = 0; i < iSize; i++) {
+			int lat = (int) (cLat + r * Math.cos(2 * i * pi / iSize));
+			int lon = (int) (cLon + r * Math.sin(2 * i * pi / iSize));
+			OverlayItem item = new OverlayItem(new GeoPoint(lat, lon), "item"
+					+ i, "item" + i);
+			item.setMarker(res.get(i % (res.size())));
+			mGeoList.add(item);
+		}
 
 		testUpdateButton = (Button) findViewById(R.id.button1);
 		OnClickListener clickListener = new OnClickListener() {
@@ -209,6 +265,50 @@ public class LocationOverlayDemo extends Activity {
 							(int) (locData.longitude * 1e6)), mHandler
 							.obtainMessage(1));
 
+			cLat = locData.latitude;
+			cLon = locData.longitude;
+			mMapListener = new MKMapViewListener() {
+				
+				@Override
+				public void onMapMoveFinish() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onClickMapPoi(MapPoi mapPoiInfo) {
+					// TODO Auto-generated method stub
+					String title = "";
+					if (mapPoiInfo != null){
+						title = mapPoiInfo.strText;
+						Toast.makeText(LocationOverlayDemo.this,title,Toast.LENGTH_SHORT).show();
+					}
+				}
+			};
+			res.add(getResources().getDrawable(R.drawable.icon_marka));
+			res.add(getResources().getDrawable(R.drawable.icon_markb));
+			res.add(getResources().getDrawable(R.drawable.icon_markc));
+			res.add(getResources().getDrawable(R.drawable.icon_markd));
+			res.add(getResources().getDrawable(R.drawable.icon_marke));
+			res.add(getResources().getDrawable(R.drawable.icon_markf));
+			res.add(getResources().getDrawable(R.drawable.icon_markg));
+			res.add(getResources().getDrawable(R.drawable.icon_markh));
+			res.add(getResources().getDrawable(R.drawable.icon_marki));
+			// overlay 数量
+			int iSize = 20;
+			double pi = 3.1415926;
+			// overlay半径
+			int r = 50000;
+			// 准备overlay 数据
+			for (int i = 0; i < iSize; i++) {
+				int lat = (int) (cLat + r * Math.cos(2 * i * pi / iSize));
+				int lon = (int) (cLon + r * Math.sin(2 * i * pi / iSize));
+				OverlayItem item = new OverlayItem(new GeoPoint(lat, lon),
+						"item" + i, "item" + i);
+				item.setMarker(res.get(i % (res.size())));
+				mGeoList.add(item);
+			}
+
 			mLocClient.stop();
 			UserHelper helper = new UserHelper(getApplicationContext());
 			User user = helper.findUser();
@@ -236,5 +336,4 @@ public class LocationOverlayDemo extends Activity {
 		public void onNotify(BDLocation mlocation, float distance) {
 		}
 	}
-
 }
