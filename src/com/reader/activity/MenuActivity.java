@@ -29,7 +29,7 @@ public class MenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
 
-		Image1 = (ImageView) findViewById(R.id.imageView1);
+		Image1 = (ImageView) findViewById(R.id.cover);
 		Image2 = (ImageView) findViewById(R.id.imageView2);
 		Image3 = (ImageView) findViewById(R.id.imageView3);
 		Image4 = (ImageView) findViewById(R.id.imageView4);

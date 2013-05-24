@@ -11,13 +11,20 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.reader.R;
@@ -52,8 +59,8 @@ public class NewBookActivity extends Activity {
 		listView = (NewBookListView) findViewById(R.id.listView);
 
 		adapter = new SimpleAdapter(NewBookActivity.this, list,
-				R.layout.content, new String[] { "title", "information",
-						"image" }, new int[] { R.id.ContentTitle,
+				R.layout.content, new String[] { "id", "title", "information",
+						"image" }, new int[] { R.id.id, R.id.ContentTitle,
 						R.id.ContentComment, R.id.image });
 		listView.setAdapter(adapter);
 		listView.setonRefreshListener(new OnRefreshListener() {
@@ -62,19 +69,71 @@ public class NewBookActivity extends Activity {
 				task.execute();
 			}
 		});
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				String a = (arg0.getItemAtPosition(arg2)).toString();
-				int b = a.indexOf("id=") + 3;
-				int c = a.indexOf(", information=");
-				final String id = a.substring(b, c);
-				int d = c + 14;
-				int e = a.indexOf(", title=");
-				String information = a.substring(d, e);
-				int f = e + 8;
-				String title = a.substring(f, a.length() - 1);
+		registerForContextMenu(listView);
+
+	}
+
+	class PageTask extends AsyncTask<String, Integer, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				String path = Config.HTTP_BOOK_UPDATE;
+				String params1 = "start=" + page * pageSize + "&limit="
+						+ pageSize;
+				page++;
+				JSONObject result = HttpUtils.getJsonByPost(path, params1);
+				JSONArray rows = new JSONArray();
+				rows = result.getJSONArray("rows");
+				for (int i = 0; i < rows.length(); i++) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("title",
+							((JSONObject) rows.get(i)).getString("name"));
+					map.put("id", ((JSONObject) rows.get(i)).getString("id"));
+					String information = ((JSONObject) rows.get(i))
+							.getString("recommend");
+					map.put("information", information);
+					list.add(0, map);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			adapter.notifyDataSetChanged();
+			listView.onRefreshComplete();
+			super.onPostExecute(result);
+		}
+
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getMenuInfo() instanceof AdapterContextMenuInfo) {
+			AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
+					.getMenuInfo();
+			TextView tv = (TextView) menuInfo.targetView.findViewById(R.id.id);
+			final String id = tv.getText().toString();
+			tv = (TextView) menuInfo.targetView.findViewById(R.id.ContentTitle);
+			String title = tv.getText().toString();
+			// 处理菜单的点击事件
+			switch (item.getItemId()) {
+			case R.id.more:
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), BookActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				Bundle bundle = new Bundle();
+				Book book = new Book();
+				book.setId(id);
+				bundle.putSerializable("book", book);
+				intent.putExtras(bundle);
+				getApplicationContext().startActivity(intent);
+				break;
+			case R.id.read:
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						NewBookActivity.this);
 				builder.setTitle("订阅");
@@ -120,50 +179,23 @@ public class NewBookActivity extends Activity {
 						});
 				builder.setNegativeButton("取消", null);
 				builder.create().show();
-
-				listView.invalidateViews();
+				break;
 
 			}
-		});
 
+		}
+		return super.onContextItemSelected(item);
 	}
 
-	class PageTask extends AsyncTask<String, Integer, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-				String path = Config.HTTP_BOOK_UPDATE;
-				String params1 = "start=" + page * pageSize + "&limit="
-						+ pageSize;
-				page++;
-				JSONObject result = HttpUtils.getJsonByPost(path, params1);
-				JSONArray rows = new JSONArray();
-				rows = result.getJSONArray("rows");
-				for (int i = 0; i < rows.length(); i++) {
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("title",
-							((JSONObject) rows.get(i)).getString("name"));
-					map.put("id", ((JSONObject) rows.get(i)).getString("id"));
-					String information = ((JSONObject) rows.get(i))
-							.getString("recommend");
-					map.put("information", information);
-					list.add(0, map);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return null;
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		if (v.getId() == R.id.listView) {
+			MenuInflater inflater = getMenuInflater();
+			menu.setHeaderTitle("请选择");
+			inflater.inflate(R.menu.new_book_menu, menu);
 		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			adapter.notifyDataSetChanged();
-			listView.onRefreshComplete();
-			super.onPostExecute(result);
-		}
-
+		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
 }
