@@ -28,30 +28,11 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name="com.reader.activity.BMapApiDemoMain"
-            android:label="BaiduMapSDKDemo" >
-        </activity>
-        <activity
             android:name="com.reader.activity.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.reader.activity.BaseMapDemo"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="sensor" >
-        </activity>
-        <activity
             android:name="com.reader.activity.ItemizedOverlayDemo"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="sensor" >
-        </activity>
-        <activity
-            android:name="com.reader.activity.LocationOverlayDemo"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="sensor" >
-        </activity>
-        <activity
-            android:name="com.reader.activity.GeoCoderDemo"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="sensor" >
         </activity>

@@ -1,12 +1,9 @@
 package com.reader.listener;
 
-import java.sql.Timestamp;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.reader.R;
-import com.reader.activity.MenuActivity;
 import com.reader.impl.UserHelper;
 import com.reader.model.Book;
 import com.reader.model.Record;
@@ -17,7 +14,6 @@ import com.reader.util.HttpUtils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.View;
@@ -89,7 +85,7 @@ public class RecomendListener implements OnClickListener {
 			} else {
 				Toast.makeText(context, result.getString("message"),
 						Toast.LENGTH_SHORT).show();
-				((Activity)context).finish();
+				((Activity) context).finish();
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

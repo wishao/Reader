@@ -9,8 +9,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,7 +59,7 @@ public class ItemizedOverlayDemo extends Activity {
 	MyLocationOverlay myLocationOverlay = null;
 	public MKMapViewListener mMapListener = null;
 	FrameLayout mMapViewContainer = null;
-
+	List<User> userList = new ArrayList<User>();
 	Button testItemButton = null;
 	Button removeItemButton = null;
 	Button removeAllItemButton = null;
@@ -162,7 +160,7 @@ public class ItemizedOverlayDemo extends Activity {
 		String params = "address=" + user.getAddress();
 		JSONObject result = HttpUtils.getJsonByPost(path, params);
 		JSONArray rows = new JSONArray();
-		List<User> userList = new ArrayList<User>();
+
 		int lat, lon;
 		try {
 			rows = result.getJSONArray("rows");
@@ -309,7 +307,7 @@ public class ItemizedOverlayDemo extends Activity {
 				R.drawable.icon_marka);
 		mMapView.getOverlays().clear();
 
-		OverlayTest ov = new OverlayTest(marker, this);
+		OverlayTest ov = new OverlayTest(marker, this, userList);
 		for (int i = 0; i < mGeoList.size(); i++) {
 			if (i != n)
 				ov.addItem(mGeoList.get(i));
@@ -326,7 +324,7 @@ public class ItemizedOverlayDemo extends Activity {
 		mMapView.getOverlays().clear();
 		mMapView.getOverlays().add(myLocationOverlay);
 		mMapView.refresh();
-		OverlayTest ov = new OverlayTest(marker, this);
+		OverlayTest ov = new OverlayTest(marker, this, userList);
 		for (OverlayItem item : mGeoList) {
 			ov.addItem(item);
 		}
@@ -347,10 +345,12 @@ class OverlayTest extends ItemizedOverlay<OverlayItem> {
 	public List<OverlayItem> mGeoList = new ArrayList<OverlayItem>();
 	private Context mContext = null;
 	static PopupOverlay pop = null;
+	List<User> userList = null;
 
-	public OverlayTest(Drawable marker, Context context) {
+	public OverlayTest(Drawable marker, Context context, List<User> userList) {
 		super(marker);
 		this.mContext = context;
+		this.userList = userList;
 		pop = new PopupOverlay(ItemizedOverlayDemo.mMapView,
 				new PopupClickListener() {
 
@@ -364,16 +364,8 @@ class OverlayTest extends ItemizedOverlay<OverlayItem> {
 	}
 
 	protected boolean onTap(int index) {
-		Drawable marker = this.mContext.getResources().getDrawable(
-				R.drawable.pop); // 得到需要标在地图上的资源
-		BitmapDrawable bd = (BitmapDrawable) marker;
-		Bitmap popbitmap = bd.getBitmap();
-		pop.showPopup(popbitmap, mGeoList.get(index).getPoint(), 32);
-		// int latspan = this.getLatSpanE6();
-		// int lonspan = this.getLonSpanE6();
-		Toast.makeText(this.mContext, mGeoList.get(index).getTitle(),
+		Toast.makeText(mContext, "登录失败" + userList.get(index).toString(),
 				Toast.LENGTH_SHORT).show();
-		super.onTap(index);
 		return false;
 	}
 
