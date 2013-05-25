@@ -85,6 +85,10 @@
             android:name="com.reader.activity.MyBookActivity"
             android:label="@string/my_book" >
         </activity>
+         <activity
+            android:name="com.reader.activity.OtherBookActivity"
+            android:label="@string/other_book" >
+        </activity>
         <activity android:name="com.reader.activity.DialogListActivity" >
         </activity>
         <activity

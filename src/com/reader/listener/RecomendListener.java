@@ -73,12 +73,17 @@ public class RecomendListener implements OnClickListener {
 					+ "&share=" + record.getShare();
 			result = HttpUtils.getJsonByPost(path, params);
 			if (result.getBoolean("success")) {
+				Toast.makeText(context, result.getString("message"),
+						Toast.LENGTH_SHORT).show();
 				if (sign) {
 					path = Config.HTTP_USER_UPDATE;
 					params = "id=" + user.getId() + "&name=" + user.getName()
 							+ "&signature=" + recomend + "--《"
 							+ record.getBook().getName() + "》" + "&status=1";
 					result = HttpUtils.getJsonByPost(path, params);
+					Toast.makeText(context, result.getString("message"),
+							Toast.LENGTH_SHORT).show();
+				} else {
 					Toast.makeText(context, result.getString("message"),
 							Toast.LENGTH_SHORT).show();
 				}

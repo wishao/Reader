@@ -12,13 +12,13 @@
             android:id="@+id/cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon_newbook" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon_record" />
 
     </TableRow>
 
@@ -28,13 +28,13 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon_dialog" />
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon_around" />
 
     </TableRow>
 
@@ -44,13 +44,13 @@
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon_my" />
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon_setting" />
 
     </TableRow>
 

@@ -23,6 +23,7 @@
     <string name="title_activity_say">对话</string>
     <string name="new_book">新书上架</string>
     <string name="my_book">我的记录</string>
+    <string name="other_book">ta的记录</string>
     <string name="title_book">书本详情</string>
     <string name="title_recomend">评价</string>
     <string name="title_user">用户资料</string>

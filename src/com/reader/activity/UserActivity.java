@@ -5,12 +5,17 @@ import com.reader.model.User;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class UserActivity extends Activity {
 	private TextView nameTv;
 	private TextView signatureTv;
+	private Button button;
+	private Button button1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,16 +23,34 @@ public class UserActivity extends Activity {
 		setContentView(R.layout.activity_user);
 		nameTv = (TextView) findViewById(R.id.name);
 		signatureTv = (TextView) findViewById(R.id.signature);
-		User user = (User) getIntent().getSerializableExtra("user");
+		button = (Button) findViewById(R.id.button1);
+		button1 = (Button) findViewById(R.id.button2);
+		final User user = (User) getIntent().getSerializableExtra("user");
 		nameTv.setText(user.getName());
 		signatureTv.setText(user.getSignature());
-	}
+		final Intent intent = new Intent();
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("id", user.getId());
+		intent.putExtras(bundle);
+		button.setOnClickListener(new OnClickListener() {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.user, menu);
-		return true;
-	}
+			@Override
+			public void onClick(View v) {
+				intent.setClass(getApplicationContext(), SayActivity.class);
+				getApplicationContext().startActivity(intent);
 
+			}
+		});
+		button1.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				intent.setClass(getApplicationContext(),
+						OtherBookActivity.class);
+				getApplicationContext().startActivity(intent);
+
+			}
+		});
+	}
 }

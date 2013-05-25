@@ -37,17 +37,22 @@ public class MenuActivity extends Activity {
 		Image6 = (ImageView) findViewById(R.id.imageView6);
 
 		Image1Listener Image1Listener = new Image1Listener(this);
-		Image1.setOnClickListener(Image1Listener);
 		Image2Listener Image2Listener = new Image2Listener(this);
-		Image2.setOnClickListener(Image2Listener);
 		Image3Listener Image3Listener = new Image3Listener(this);
-		Image3.setOnClickListener(Image3Listener);
 		Image4Listener Image4Listener = new Image4Listener(this);
-		Image4.setOnClickListener(Image4Listener);
 		Image5Listener Image5Listener = new Image5Listener(this);
-		Image5.setOnClickListener(Image5Listener);
 		Image6Listener Image6Listener = new Image6Listener(this);
-		Image6.setOnClickListener(Image6Listener);
+		Image1.setOnClickListener(Image3Listener);
+
+		Image2.setOnClickListener(Image4Listener);
+
+		Image3.setOnClickListener(Image5Listener);
+
+		Image4.setOnClickListener(Image6Listener);
+
+		Image5.setOnClickListener(Image1Listener);
+
+		Image6.setOnClickListener(Image2Listener);
 	}
 
 	@Override
